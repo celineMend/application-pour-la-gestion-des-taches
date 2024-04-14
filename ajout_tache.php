@@ -1,41 +1,40 @@
+
 <?php
-// Inclusion du fichier de configuration et de la classe Tache
+require_once("config.php");
+require_once("tache.php");
 
-require_once 'tache.php';
-
-session_start();
-// Vérification si le formulaire est soumis
-if(isset($_SESSION['id_employe'])) {
-    // Redirigez l'utilisateur vers la page de connexion s'il n'est pas connecté
-    header("Location: index.php");
-    exit; // Arrêtez l'exécution du script
-}
-// Vérifie si le formulaire a été soumis
+// Vérifie si le formulaire d'ajout de tâche a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Inclure le fichier de classe contenant la méthode creerTache
-    require_once 'config.php';
+    session_start();
+    // Vérification si l'utilisateur est connecté
+    if (!isset($_SESSION['employe'])) {
+        // Redirection vers la page de connexion s'il n'est pas connecté
+        header("Location: ajout_tache.php?page=connecter");
+        exit(); // Arrêtez l'exécution du script
+    }
+    
+    // Récupère les informations de l'utilisateur
+    $employe = $_SESSION['employe'];
 
     // Récupération des données du formulaire
     $libelle = $_POST['libelle'];
     $description = $_POST['description'];
     $dateEcheance = $_POST['dateEcheance'];
     $priorite = $_POST['priorite'];
-    $etat = 'à faire'; // Définissez l'état initial
-    $id_employe = $_SESSION['id']; // Obtenez l'ID de l'utilisateur à partir de la session
-    // Création d'une nouvelle instance de la classe Tache
-    $tache = new Tache($connexion,"Acheter des fournitures de bureau", "Acheter des stylos, des cahiers, etc.", "2024-04-30", "Haute", "En cours", 1);
+    $etat = $_POST['etat'];
+    $id_employe = $employe->getId();  
 
-    // Appel de la méthode creerTache pour ajouter la tâche à la base de données
-    if($tache->createTache($libelle, $description, $dateEcheance, $priorite, $etat, $id_tache)) {
-        // Redirection vers la page principale après l'ajout
-        header("Location: index.php");
-        exit();
-    } else {
-        echo "Erreur lors de l'ajout de la tâche.";
-    }
+    // Création d'une nouvelle instance de la classe Tache
+    $tache = new Tache($connexion, $libelle, $description, $dateEcheance, $priorite, $etat, $id_employe);
+
+    // Appel de la méthode create pour ajouter la tâche à la base de données
+    $tache->create();
+
+    // Redirection vers la page d'accueil après l'ajout de la tâche
+    header("Location: index.php");
+    exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -48,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container">
         <h1>Ajouter une tâche</h1>
-        <form method="post" action="">
+        <form method="post" action="ajout_tache.php">
             <fieldset>
             <div class="mb-3">
                 <label for="libelle">Libellé :</label><br>
@@ -78,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <option value="terminée">Terminée</option>
                 </select><br>
             </div>
-            <input type="submit" class="btn btn-primary" name="submit" value="Ajouter">
+            <input type="submit" class="btn btn-primary" name="submit" value="Ajouter une tache">
             </fieldset>
         </form>
     </div>

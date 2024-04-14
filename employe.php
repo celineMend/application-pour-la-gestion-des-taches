@@ -55,6 +55,14 @@ class Employe{
 
 
     public function inscription($nom, $prenom, $email, $mot_de_passe) {
+        // Validation des données d'inscription
+        if (!Validation::validerEmail($email)) {
+            return false;
+        }
+
+        // Hashage du mot de passe
+        $hash_mot_de_passe = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+
         try {
             // Préparation de la requête d'insertion
             $sql = "INSERT INTO Employe (nom, prenom, email, mot_de_passe) VALUES (:nom, :prenom, :email, :mot_de_passe)";
@@ -64,7 +72,7 @@ class Employe{
             $stmt->bindParam(":nom", $nom);
             $stmt->bindParam(":prenom", $prenom);
             $stmt->bindParam(":email", $email);
-            $stmt->bindParam(":mot_de_passe", $mot_de_passe);
+            $stmt->bindParam(":mot_de_passe", $hash_mot_de_passe);
             
             // Exécution de la requête
             $stmt->execute();

@@ -19,6 +19,7 @@ class Tache implements Itache {
         $this->date_echeance = $date_echeance;
         $this->priorite = $priorite;
         $this->etat = $etat;
+
     }
 
     // Méthode pour ajouter une nouvelle tâche

@@ -1,75 +1,89 @@
 <?php
-// Démarrer la session
-session_start();
+// Initialisation du tableau des erreurs
+$erreurs = array();
 
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['id_employe'])) {
-    // Rediriger l'utilisateur vers la page de connexion s'il n'est pas connecté
-    header("Location: ajout_tache.ph");
-    exit; // Arrêter l'exécution du script
-}
-
-// Vérifier si le formulaire a été soumis
+// Vérification des données soumises
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Inclure le fichier de classe contenant la méthode creerTache
-    require_once 'config.php';
+    // Validation du prénom
+    if (empty($_POST['prenom'])) {
+        $erreurs['prenom'] = "Le prénom est requis.";
+    } elseif (!preg_match("/^[a-zA-ZÀ-ÿ\- ]*$/", $_POST['prenom'])) {
+        $erreurs['prenom'] = "Le prénom ne peut contenir que des lettres et des espaces.";
+    }
 
-    // Récupérer les valeurs du formulaire
-    $libelle = $_POST['libelle'];
-    $description = $_POST['description'];
-    $dateEcheance = $_POST['dateEcheance'];
-    $priorite = $_POST['priorite'];
-    $etat = 'à faire'; // Définir l'état initial
-    $id_employe = $_SESSION['id_employe']; // Obtenir l'ID de l'utilisateur à partir de la session
+    // Validation du nom
+    if (empty($_POST['nom'])) {
+        $erreurs['nom'] = "Le nom est requis.";
+    } elseif (!preg_match("/^[a-zA-ZÀ-ÿ\- ]*$/", $_POST['nom'])) {
+        $erreurs['nom'] = "Le nom ne peut contenir que des lettres et des espaces.";
+    }
 
-    // Créer une nouvelle instance de la classe Tache
-    $tache = new Tache($connexion, "Acheter des fournitures de bureau", "Acheter des stylos, des cahiers, etc.", "2024-04-30", "Haute", "En cours", "1");
+    // Validation de l'email
+    if (empty($_POST['email'])) {
+        $erreurs['email'] = "L'email est requis.";
+    } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        $erreurs['email'] = "L'email n'est pas valide.";
+    }
 
-    // Appeler la méthode creerTache pour créer une nouvelle tâche
-    $tache->creerTache($libelle, $description, $dateEcheance, $priorite, $etat, $id_employe);
-
-    // Rediriger l'utilisateur vers une autre page après la création de la tâche
-    header("Location: ajout_tache.php");
-    exit;
+    
 }
+
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ajouter une tâche</title>
-    <!-- Inclure Bootstrap CSS -->
+    <title>Inscription</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="inscription.css"> 
 </head>
 <body>
     <div class="container">
-        <h1>Créer une tâche</h1>
-        <form method="post" action="">
+        <div class="titre">
+            <h2 class="mt-5">Inscription</h2>
+        </div>
+        <form action="connexion.php" method="POST">
             <div class="form-group">
-                <label for="libelle">Libellé :</label>
-                <input type="text"  id="libelle" name="libelle" required>
+                <input type="text" class="form-control <?php echo (isset($erreurs['prenom'])) ? 'is-invalid' : ''; ?>" id="prenom" name="prenom" placeholder="Prénom" required>
+                <?php if (isset($erreurs['prenom'])) { ?>
+                    <div class="invalid-feedback">
+                        <?php echo $erreurs['prenom']; ?>
+                    </div>
+                <?php } ?>
             </div>
             <div class="form-group">
-                <label for="description">Description :</label>
-                <textarea  id="description" name="description" rows="3" required></textarea>
+                <input type="text" class="form-control <?php echo (isset($erreurs['nom'])) ? 'is-invalid' : ''; ?>" id="nom" name="nom" placeholder="Nom" required>
+                <?php if (isset($erreurs['nom'])) { ?>
+                    <div class="invalid-feedback">
+                        <?php echo $erreurs['nom']; ?>
+                    </div>
+                <?php } ?>
             </div>
             <div class="form-group">
-                <label for="dateEcheance">Date et heure d'échéance :</label>
-                <input type="datetime-local"  id="dateEcheance" name="dateEcheance" required>
+                <input type="email" class="form-control <?php echo (isset($erreurs['email'])) ? 'is-invalid' : ''; ?>" id="email" name="email" placeholder="Email" required>
+                <?php if (isset($erreurs['email'])) { ?>
+                    <div class="invalid-feedback">
+                        <?php echo $erreurs['email']; ?>
+                    </div>
+                <?php } ?>
             </div>
             <div class="form-group">
-                <label for="priorite">Priorité :</label>
-                <select  id="priorite" name="priorite" required>
-                    <option value="faible">Faible</option>
-                    <option value="moyenne">Moyenne</option>
-                    <option value="élevée">Élevée</option>
-                </select>
+                <input type="mot_de_passe" class="form-control <?php echo (isset($erreurs['mot_de_passe'])) ? 'is-invalid' : ''; ?>" id="mot_de_passe" name="mot_de_passe" placeholder="Mot de passe" required>
+                <?php if (isset($erreurs['password'])) { ?>
+                    <div class="invalid-feedback">
+                        <?php echo $erreurs['password']; ?>
+                    </div>
+                <?php } ?>
             </div>
-            <!-- Ajoutez d'autres champs selon vos besoins -->
-            <button type="submit" class="btn btn-primary">Créer la tâche</button>
+            <button type="submit" class="btn btn-primary btn-block">
+                <a href="connexion.php" style="color: white; text-decoration: none;">S'INSCRIRE</a>
+            </button>
+
         </form>
+        <p class="mt-3">Déjà inscrit ? <a href="connexion.php">Connectez-vous ici</a></p>
     </div>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
