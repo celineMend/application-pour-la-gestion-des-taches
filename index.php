@@ -48,6 +48,96 @@ if ($liste_taches) {
     <title>Liste des Tâches</title>
     <!-- Inclusion du CSS Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+
+    <Style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url("image/th2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* En-tête */
+header {
+    background-color: #FFFF00;
+    color: #fff;
+    padding: 10px;
+}
+
+/* Titre */
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+/* Boutons de connexion/déconnexion */
+header a {
+    color: #fff;
+    text-decoration: none;
+    float: right;
+    margin-left: 20px;
+}
+
+/* Section des tâches */
+section {
+    padding: 20px;
+}
+
+/* Bouton "Ajouter une tâche" */
+.add-task {
+    background-color:  #FFFF00;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+/* Tableau des tâches */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color:  #FFFF00;
+}
+
+/* Boutons d'action */
+.action-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background-color: #f44336;
+}
+</style>
+
 </head>
 <body>
 <header>
@@ -55,17 +145,19 @@ if ($liste_taches) {
     <nav>
         <ul>
             <li><a href="index.php">Accueil</a></li>
-            <li><a href="tache.php">Tâches</a></li>
-            <li><a href="deconnexion.php">Déconnexion</a></li>
+            <li><a href="inscription.php">Inscription</a></li>
+            <li><a href="connexion.php">login</a></li>
         </ul>
     </nav>
 </header>
 <div class="container">
-    <h1>Mes Tâches</h1>
+    
     <!-- Bouton pour ajouter une nouvelle tâche -->
-    <a href="ajout_tache.php" class="btn btn-primary">Ajouter une tache</a>
+    
     <table class="table">
         <thead>
+        <h1>Mes Tâches</h1>
+        <a href="ajout_tache.php" class="btn btn-primary">Ajouter une tache</a>
         <tr>
             <th scope="col">Libellé</th>
             <th scope="col">Description</th>

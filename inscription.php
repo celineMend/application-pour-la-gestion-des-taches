@@ -38,13 +38,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Inscription</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="inscription.css"> 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 50px;
+            
+        }
+
+        .image-container {
+            flex: 1;
+            max-width: 600px; 
+            height: auto;
+        }
+
+        .form-container {
+            flex: 1;
+            padding-left: 20px; /* Espacement entre l'image et le formulaire */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .invalid-feedback {
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="titre">
-            <h2 class="mt-5">Inscription</h2>
+        <div class="image-container">
+            <img src="image/th.jpeg" alt="Background Image">
         </div>
-        <form action="connexion.php" method="POST">
+        <div class="form-container">
+            <div class="titre">
+                <h2 class="mt-5">Inscription</h2>
+            </div>
+            <form action="connexion.php" method="POST">
             <div class="form-group">
                 <input type="text" class="form-control <?php echo (isset($erreurs['prenom'])) ? 'is-invalid' : ''; ?>" id="prenom" name="prenom" placeholder="Prénom" required>
                 <?php if (isset($erreurs['prenom'])) { ?>

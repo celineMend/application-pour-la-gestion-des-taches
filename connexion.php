@@ -44,7 +44,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Lien vers votre fichier CSS personnalisé -->
     <link rel="stylesheet" href="style.css">
+<style>
+    body {
+    background-color: #f8f9fa; /* Couleur de fond */
+    font-family: Arial, sans-serif; /* Police de caractères */
+}
 
+.container {
+    margin-top: 50px; /* Marge en haut du conteneur */
+}
+
+.partie-icon {
+    background-color: #007bff; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+}
+
+.icon-container {
+    background-color: #0056b3; /* Couleur de fond de l'icône */
+    width: 100px; /* Largeur de l'icône */
+    height: 100px; /* Hauteur de l'icône */
+    border-radius: 50%; /* Forme de l'icône arrondie */
+    display: flex; /* Utilisation de flexbox */
+    justify-content: center; /* Centrage horizontal */
+    align-items: center; /* Centrage vertical */
+    margin-bottom: 20px; /* Marge en bas de l'icône */
+}
+
+.custom-login-form {
+    background-color: white; /* Couleur de fond du formulaire */
+    padding: 20px; /* Espacement intérieur */
+    border-radius: 10px; /* Coins arrondis */
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Ombre légère */
+}
+
+.custom-login-form input[type="email"],
+.custom-login-form input[type="password"] {
+    border-radius: 5px; /* Coins arrondis des champs de saisie */
+}
+
+.custom-btn-primary {
+    background-color: #007bff; /* Couleur de fond du bouton */
+    border-color: #007bff; /* Couleur de la bordure du bouton */
+}
+
+.custom-btn-primary:hover {
+    background-color: #0056b3; /* Couleur de fond du bouton au survol */
+    border-color: #0056b3; /* Couleur de la bordure du bouton au survol */
+}
+
+.custom-btn-secondary {
+    color: #007bff; /* Couleur du texte du bouton */
+}
+
+.custom-btn-secondary:hover {
+    color: #0056b3; /* Couleur du texte du bouton au survol */
+}
+
+</style>
 
 </head>
 <body >
